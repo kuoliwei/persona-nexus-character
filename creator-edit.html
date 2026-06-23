@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>編輯角色</title>
+</head>
+
+<body>
+  <div class="container">
+    <h2>編輯角色</h2>
+    <p class="subtitle">修改角色資料後按下儲存</p>
+
+    <form id="character-form">
+
+      <div class="input-group">
+        <label for="name">角色名稱 *</label>
+        <input type="text" id="name" placeholder="輸入角色名稱..." required>
+      </div>
+
+      <div class="input-group">
+        <label for="gender">性別</label>
+        <input type="text" id="gender" placeholder="例如：女性、不明...">
+      </div>
+
+      <div class="input-group">
+        <label for="tags">標籤（用逗號分隔，例如：奇幻,魔法,冒險）</label>
+        <input type="text" id="tags" placeholder="奇幻,魔法,冒險">
+      </div>
+
+      <div class="input-group">
+        <label for="visibility">公開設定</label>
+        <select id="visibility">
+          <option value="private">私人（private）</option>
+          <option value="public">公開（public）</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="introduction">簡介(其他使用者能看到，用於簡介角色，不會影響AI，建議使用Enter適當分行，使人閱讀舒適) *</label>
+        <textarea id="introduction" rows="4" placeholder="簡短介紹這個角色..." required></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="background">背景設定(其他使用者看不到，給AI參考的角色設定，任何跟角色相關的事物都可以寫，建議使用Enter適當分行，不要一行太過多文字，以維持AI解讀品質) *</label>
+        <textarea id="background" rows="6" placeholder="詳細描述角色的背景故事..." required></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="opening">開場白(使用者第一次進入此角色聊天室時的開場白) *</label>
+        <textarea id="opening" rows="4" placeholder="使用者第一次進入此角色聊天室時的開場白..." required></textarea>
+      </div>
+
+      <fieldset>
+        <legend>範例對話（給AI參考的角色對話風格）</legend>
+        <div id="fewshots-container"></div>
+        <button type="button" id="add-fewshot">+ 新增對話</button>
+      </fieldset>
+
+      <button type="submit">儲存變更</button>
+    </form>
+
+    <div id="message-box"></div>
+  </div>
+
+  <template id="fewshot-template">
+    <div class="fewshot-row">
+      <textarea class="fs-user" placeholder="User"></textarea>
+      <textarea class="fs-char" placeholder="Char"></textarea>
+      <button type="button" class="fs-delete">刪除</button>
+    </div>
+  </template>
+
+  <script type="module" src="/src/edit.js"></script>
+</body>
+
+</html>
