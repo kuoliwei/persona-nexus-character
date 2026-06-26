@@ -38,7 +38,10 @@ form.addEventListener('submit', async (event) => {
     messageBox.textContent = `角色創建成功！ID：${result.data.id}`;
     clearForm();
     setTimeout(() => {
-      window.location.href = `${LOBBY_APP_URL}/`;
+      // 跳轉到「我的角色」頁面而不是首頁
+      // 原因：用戶創建的角色通常是私有的，應該在「我的角色」頁面查看新建的角色
+      // 技術細節：使用 window.parent.location.href 在主頁面（lobby）跳轉，避免在 iframe 內跳轉
+      window.parent.location.href = `${LOBBY_APP_URL}/my-characters`;
     }, 1500);
   } else {
     messageBox.className = 'error';

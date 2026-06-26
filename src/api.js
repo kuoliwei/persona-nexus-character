@@ -53,3 +53,13 @@ export async function createCharacter(data) {
   });
   return response.json();
 }
+
+export async function deleteCharacter(id) {
+  const response = await fetch(`${BASE_URL}/characters/${id}`, {
+    method: 'DELETE',
+    headers: {
+      ...getAuthHeader()
+    }
+  });
+  return response.json();
+}
