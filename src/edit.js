@@ -33,43 +33,55 @@ if (!getCurrentUserId()) {
 }
 
 async function loadCharacter() {
-  const result = await getCharacter(characterId);
+  try {
+    const result = await getCharacter(characterId);
 
-  if (result.status !== 'success') {
+    if (result.status !== 'success') {
+      messageBox.className = 'error';
+      messageBox.textContent = `載入失敗：${result.message}`;
+      return;
+    }
+
+    const c = result.data;
+    document.getElementById('name').value = c.name;
+    document.getElementById('gender').value = c.gender ?? '';
+    document.getElementById('tags').value = c.tags.join(',');
+    document.getElementById('visibility').value = c.visibility;
+    document.getElementById('introduction').value = c.introduction ?? '';
+    document.getElementById('background').value = c.background;
+    document.getElementById('opening').value = c.opening;
+    loadFewShots(c.fewShots);
+  } catch (error) {
     messageBox.className = 'error';
-    messageBox.textContent = `載入失敗：${result.message}`;
-    return;
+    messageBox.textContent = `❌ 載入失敗：${error.message}`;
+    console.error('[edit.js] 角色載入失敗:', error);
   }
-
-  const c = result.data;
-  document.getElementById('name').value = c.name;
-  document.getElementById('gender').value = c.gender ?? '';
-  document.getElementById('tags').value = c.tags.join(',');
-  document.getElementById('visibility').value = c.visibility;
-  document.getElementById('introduction').value = c.introduction ?? '';
-  document.getElementById('background').value = c.background;
-  document.getElementById('opening').value = c.opening;
-  loadFewShots(c.fewShots);
 }
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const data = getFormData();
-  const result = await updateCharacter(characterId, data);
+  try {
+    const data = getFormData();
+    const result = await updateCharacter(characterId, data);
 
-  if (result.status === 'success') {
-    messageBox.className = 'success';
-    messageBox.textContent = '角色更新成功！';
-    setTimeout(() => {
-      // 跳轉到「我的角色」頁面以確認編輯結果
-      // 原因：用戶需要看到編輯後的角色信息，而「我的角色」頁面會重新載入最新數據
-      // 技術細節：使用 window.parent.location.href 在主頁面（lobby）跳轉，避免在 iframe 內跳轉
-      window.parent.location.href = `${LOBBY_APP_URL}/my-characters`;
-    }, 1500);
-  } else {
+    if (result.status === 'success') {
+      messageBox.className = 'success';
+      messageBox.textContent = '角色更新成功！';
+      setTimeout(() => {
+        // 跳轉到「我的角色」頁面以確認編輯結果
+        // 原因：用戶需要看到編輯後的角色信息，而「我的角色」頁面會重新載入最新數據
+        // 技術細節：使用 window.parent.location.href 在主頁面（lobby）跳轉，避免在 iframe 內跳轉
+        window.parent.location.href = `${LOBBY_APP_URL}/my-characters`;
+      }, 1500);
+    } else {
+      messageBox.className = 'error';
+      messageBox.textContent = `錯誤：${result.message}`;
+    }
+  } catch (error) {
     messageBox.className = 'error';
-    messageBox.textContent = `錯誤：${result.message}`;
+    messageBox.textContent = `❌ 更新失敗：${error.message}`;
+    console.error('[edit.js] 角色更新失敗:', error);
   }
 });
 

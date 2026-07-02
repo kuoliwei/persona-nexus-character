@@ -27,6 +27,10 @@ export async function getCharacter(id) {
   const response = await fetch(`${BASE_URL}/characters/${id}`, {
     headers: { ...getAuthHeader() }
   });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: '未知錯誤' }));
+    throw new Error(error.message || `HTTP ${response.status}`);
+  }
   return response.json();
 }
 
@@ -39,6 +43,10 @@ export async function updateCharacter(id, data) {
     },
     body: JSON.stringify(data)
   });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: '未知錯誤' }));
+    throw new Error(error.message || `HTTP ${response.status}`);
+  }
   return response.json();
 }
 
@@ -51,6 +59,10 @@ export async function createCharacter(data) {
     },
     body: JSON.stringify(data)
   });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: '未知錯誤' }));
+    throw new Error(error.message || `HTTP ${response.status}`);
+  }
   return response.json();
 }
 
@@ -61,5 +73,9 @@ export async function deleteCharacter(id) {
       ...getAuthHeader()
     }
   });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: '未知錯誤' }));
+    throw new Error(error.message || `HTTP ${response.status}`);
+  }
   return response.json();
 }
