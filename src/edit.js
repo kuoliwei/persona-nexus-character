@@ -53,7 +53,7 @@ async function loadCharacter() {
     loadFewShots(c.fewShots);
   } catch (error) {
     messageBox.className = 'error';
-    messageBox.textContent = `❌ 載入失敗：${error.message}`;
+    messageBox.textContent = '❌ 載入失敗，請稍後重試。';
     console.error('[edit.js] 角色載入失敗:', error);
   }
 }
@@ -80,7 +80,7 @@ form.addEventListener('submit', async (event) => {
     }
   } catch (error) {
     messageBox.className = 'error';
-    messageBox.textContent = `❌ 更新失敗：${error.message}`;
+    messageBox.textContent = '❌ 更新失敗，請稍後重試。';
     console.error('[edit.js] 角色更新失敗:', error);
   }
 });
@@ -108,6 +108,6 @@ deleteBtn.addEventListener('click', async () => {
     }
   } catch (error) {
     messageBox.className = 'error';
-    messageBox.textContent = `刪除失敗：${error.message}`;
+    messageBox.textContent = '❌ 刪除失敗，請稍後重試。';
   }
 });

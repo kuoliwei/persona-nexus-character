@@ -50,7 +50,7 @@ form.addEventListener('submit', async (event) => {
     }
   } catch (error) {
     messageBox.className = 'error';
-    messageBox.textContent = `❌ 創建失敗：${error.message}`;
+    messageBox.textContent = '❌ 創建失敗，請稍後重試。';
     console.error('[create.js] 角色創建失敗:', error);
   }
 });
