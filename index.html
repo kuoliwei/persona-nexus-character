@@ -21,12 +21,23 @@
     import { getCurrentUserId, getConfig } from './src/api.js';
     import { loadConfig } from './src/config-loader.js';
 
-    await loadConfig();
-    const config = getConfig();
-    const LOGIN_APP_URL = config.frontends.web;
+    try {
+      // 嘗試從 gateway 加載配置
+      await loadConfig();
+      const config = getConfig();
+      const LOGIN_APP_URL = config.frontends.web;
 
-    if (!getCurrentUserId()) {
-      window.location.href = `${LOGIN_APP_URL}/`;
+      if (!getCurrentUserId()) {
+        window.location.href = `${LOGIN_APP_URL}/`;
+      }
+    } catch (error) {
+      // 如果配置加載失敗（例如 gateway 沒開），使用備用登入頁面
+      console.error('Failed to load config:', error);
+
+      if (!getCurrentUserId()) {
+        // 使用預設的登入頁面位置
+        window.location.href = 'http://localhost:5173/';
+      }
     }
   </script>
 </body>
